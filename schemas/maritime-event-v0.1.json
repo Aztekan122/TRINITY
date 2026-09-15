@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TRINITY Maritime Event",
+  "type": "object",
+  "required": [
+    "event_id",
+    "timestamp",
+    "source",
+    "event_type"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string"
+    },
+    "entity_id": {
+      "type": ["string", "null"]
+    },
+    "latitude": {
+      "type": ["number", "null"]
+    },
+    "longitude": {
+      "type": ["number", "null"]
+    },
+    "speed": {
+      "type": ["number", "null"]
+    },
+    "heading": {
+      "type": ["number", "null"]
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

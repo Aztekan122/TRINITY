@@ -20,7 +20,34 @@ def make_event(
         latitude=latitude,
         longitude=longitude,
     )
+def test_distinct_entities_can_form_a_relationship_without_identity_merge():
+    start = datetime(2026, 9, 15, 12, 0, tzinfo=timezone.utc)
 
+    first = make_event(
+        "A-001",
+        start,
+        "VESSEL-A",
+        51.450,
+        1.350,
+    )
+
+    second = make_event(
+        "B-001",
+        start + timedelta(minutes=1),
+        "VESSEL-B",
+        51.451,
+        1.351,
+    )
+
+    from core.correlation.assessment import assess_entity_relationship
+
+    relationship = assess_entity_relationship(first, second)
+
+    assert relationship is not None
+    assert relationship.first_entity_id == "VESSEL-A"
+    assert relationship.second_entity_id == "VESSEL-B"
+    assert relationship.compatible
+    assert "spatiotemporal_compatibility" in relationship.reasons
 
 def test_explicit_entity_id_match_is_compatible():
     start = datetime(2026, 9, 15, 12, 0, tzinfo=timezone.utc)
@@ -120,3 +147,4 @@ def test_missing_coordinates_prevent_spatiotemporal_match():
 
     assert not assessment.compatible
     assert assessment.reasons == ()
+
